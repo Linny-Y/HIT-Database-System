@@ -10,8 +10,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import sys
+import pymysql
 
 class Ui_teacher(object):
+    def connect(self):
+        con = pymysql.connect(host= 'localhost', port= 3306, charset='utf8',
+                            user= 'root', password= '1234567890', 
+                            database= 'teaching_management_system')
+        
+        return con
     def setupUi(self, teacher):
         teacher.setObjectName("teacher")
         teacher.resize(800, 625)
