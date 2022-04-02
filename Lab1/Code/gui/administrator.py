@@ -25,7 +25,89 @@ class Ui_administrator(object):
         con = self.connect()
         cur = con.cursor()
         sno,sname,classno,sage,ssex = self.lineEdit_sno.text(),self.lineEdit_sname.text(),self.lineEdit_cno.text(),self.lineEdit_sage.text(),self.comboBox_sex.currentText()
+        if not sno or not sname or not classno or not sage:
+            QMessageBox.warning(self, '警告', '不能为空')
+        elif not cur.execute('select * from class where cno=%s',[classno]):
+            QMessageBox.warning(self, '警告', '班级不存在')
+        elif cur.execute('select * from student where sno=%s',[sno]):
+            QMessageBox.warning(self, '警告', '该学生已存在')
+        else:
+            cur.execute("insert into student VALUES(%s,%s,%s,%s,%s)",[sno,sname,ssex,classno,sage])
+            con.commit()
+            QMessageBox.information(self, '成功', '学生信息已录入')
+        self.lineEdit_sname.clear()
+
         
+    def studentDelete(self):
+        con = self.connect()
+        cur = con.cursor()
+        sno = self.lineEdit_sno.text()
+        if not sno :
+            QMessageBox.warning(self, '警告', '不能为空')
+        elif not cur.execute('select * from student where sno=%s',[sno]):
+            QMessageBox.warning(self, '警告', '该学生不存在')
+        else:
+            cur.execute("delete from student where sno=%s",[sno])
+            con.commit()
+            QMessageBox.information(self, '成功', '学生信息已删除')
+
+    def InsertSchedule(self):
+        con = self.connect()
+        cur = con.cursor()
+        courseno,teacherno = self.lineEdit_courseno.text(),self.lineEdit_tno.text()
+        year,semester = self.comboBox_year.currentText(),self.comboBox_semester.currentText()
+        if not courseno or not teacherno:
+            QMessageBox.warning(self, '警告', '不能为空')
+        elif not cur.execute('select * from course where course.courseno=%s',[courseno]):
+            QMessageBox.warning(self, '警告', '该课程不存在')
+        elif not cur.execute('select * from teacher where teacher.tno=%s',[teacherno]):
+            QMessageBox.warning(self, '警告', '该教师不存在')
+        elif cur.execute('select * from schedule where schedule.teacherno=%s and schedule.courseno=%s and schedule.year=%s and schedule.semester=%s',[teacherno,courseno,year,semester]):
+            QMessageBox.warning(self, '警告', '该排课已存在')
+        else:
+            cur.execute('insert into schedule values(%s,NULL,%s,%s,%s)',[courseno,teacherno,year,semester])
+            con.commit()
+            QMessageBox.information(self, '成功', '排课信息已录入')
+
+
+
+    def course2student(self):
+        con = self.connect()
+        cur = con.cursor()
+        coursename = self.lineEdit_coursename.text()
+        if not coursename:
+            QMessageBox.warning(self, '警告', '不能为空')
+        else:
+            cur.execute('select studentno,sname,courseno,scheduleno from student_courses where coursename=%s',[coursename])
+            res = []
+            res.append('studentno \t sname \t courseno \t scheduleno')
+            for item in cur.fetchall():
+                res.append(str(item[0])+'\t'+str(item[1])+'\t'+str(item[2])+'\t'+str(item[3]))
+            QMessageBox.information(self, '成功', '\n'.join(res) if len(res) > 0 else '无结果')
+
+
+    def score(self):
+        con = self.connect()
+        cur = con.cursor()
+        sno = self.lineEdit_sno2.text()
+        query = 'select studentno,count(*),avg(score) from choose group by studentno '
+        if not sno:
+            cur.execute(query)
+            res = []
+            res.append('studentno \t count \t avg')
+            for item in cur.fetchall():
+                res.append(str(item[0])+'\t'+str(item[1])+'\t'+str(item[2]))
+            QMessageBox.information(self, '成功', '\n'.join(res) if len(res) > 0 else '无结果')
+        elif not cur.execute('select * from choose where studentno=%s',[sno]):
+            QMessageBox.warning(self, '警告', '该学号无结果')
+        else:
+            cur.execute(query+'having studentno=%s',[sno])
+            res = []
+            res.append('studentno \t count \t avg')
+            for item in cur.fetchall():
+                res.append(str(item[0])+'\t'+str(item[1])+'\t'+str(item[2]))
+            QMessageBox.information(self, '成功', '\n'.join(res) if len(res) > 0 else '无结果')
+
 
     def setupUi(self, administrator):
         administrator.setObjectName("administrator")
@@ -175,16 +257,16 @@ class Ui_administrator(object):
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.comboBox_year)
         self.gridLayout_5.addLayout(self.formLayout_3, 1, 2, 1, 1)
         self.verticalLayout_2.addLayout(self.gridLayout_5)
-        self.gridLayout_10 = QtWidgets.QGridLayout()
-        self.gridLayout_10.setObjectName("gridLayout_10")
-        self.label_13 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
-        self.label_13.setObjectName("label_13")
-        self.gridLayout_10.addWidget(self.label_13, 1, 0, 1, 1)
-        self.lineEdit_capacity = QtWidgets.QLineEdit(self.verticalLayoutWidget_2)
-        self.lineEdit_capacity.setText("")
-        self.lineEdit_capacity.setObjectName("lineEdit_capacity")
-        self.gridLayout_10.addWidget(self.lineEdit_capacity, 1, 1, 1, 1)
-        self.verticalLayout_2.addLayout(self.gridLayout_10)
+        # self.gridLayout_10 = QtWidgets.QGridLayout()
+        # self.gridLayout_10.setObjectName("gridLayout_10")
+        # self.label_13 = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        # self.label_13.setObjectName("label_13")
+        # self.gridLayout_10.addWidget(self.label_13, 1, 0, 1, 1)
+        # self.lineEdit_capacity = QtWidgets.QLineEdit(self.verticalLayoutWidget_2)
+        # self.lineEdit_capacity.setText("")
+        # self.lineEdit_capacity.setObjectName("lineEdit_capacity")
+        # self.gridLayout_10.addWidget(self.lineEdit_capacity, 1, 1, 1, 1)
+        # self.verticalLayout_2.addLayout(self.gridLayout_10)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -279,7 +361,10 @@ class Ui_administrator(object):
 
         # operation
         self.studentInsertButton.clicked.connect(self.studentInsert)
-
+        self.studentDeletepushButton.clicked.connect(self.studentDelete)
+        self.InsertSchedulepushButton.clicked.connect(self.InsertSchedule)
+        self.course2studentButton.clicked.connect(self.course2student)
+        self.scoreButton.clicked.connect(self.score)
 
 
     def retranslateUi(self, administrator):
@@ -312,16 +397,13 @@ class Ui_administrator(object):
         self.comboBox_year.setItemText(2, _translate("administrator", "2021"))
         self.comboBox_year.setItemText(3, _translate("administrator", "2022"))
         self.comboBox_year.setItemText(4, _translate("administrator", "2023"))
-        self.label_13.setText(_translate("administrator", "选课容量"))
+        # self.label_13.setText(_translate("administrator", "选课容量"))
         self.InsertSchedulepushButton.setText(_translate("administrator", "插入"))
-        # self.label_11.setText(_translate("administrator", "课程删除："))
-        # self.label_15.setText(_translate("administrator", "开课号"))
-        # self.deletepushButton.setText(_translate("administrator", "删除"))
         self.label_25.setText(_translate("administrator", "查询"))
-        self.label_27.setText(_translate("administrator", "查询选修某课程学生姓名"))
+        self.label_27.setText(_translate("administrator", "查询选修某课程学生"))
         self.label_28.setText(_translate("administrator", "课程名称"))
         self.course2studentButton.setText(_translate("administrator", "查询"))
-        self.label_29.setText(_translate("administrator", "查询某学生平均成绩"))
+        self.label_29.setText(_translate("administrator", "查询学生选课数和平均成绩\n(若学号为空则输出所有学生)"))
         self.label_30.setText(_translate("administrator", "学号"))
         self.scoreButton.setText(_translate("administrator", "查询"))
 

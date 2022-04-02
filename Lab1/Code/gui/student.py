@@ -26,7 +26,7 @@ class Ui_student(object):
     def printCourse(self):
         con = self.connect()
         cur = con.cursor()
-        cur.execute('select scheduleno,coursename,tname,year,semester from schedule,course,teacher where schedule.teacherno=teacher.tno and course.courseno = schedule.courseno')
+        cur.execute('select * from all_courses')
         data = cur.fetchall()
         # 打印测试
         x = 0
@@ -62,6 +62,7 @@ class Ui_student(object):
                     query = 'insert into choose values (%s,%s,%s,%s,0)'
                     cur.execute(query, [sno,courseno,scheduleno,teacherno])
                     con.commit()
+                    QMessageBox.information(self, '成功', '选课成功')
         self.lineEdit_schno.clear()
 
     def setupUi(self, student):

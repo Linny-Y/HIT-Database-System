@@ -73,7 +73,8 @@ CREATE TABLE `course`  (
     -- `hour` INTEGER NOT NULL COMMENT '课时',
     `facultyno` varchar(4) NOT NULL COMMENT '开课学院编号',
     primary key (`courseno`),
-    foreign key (`facultyno`) references `faculty`(`fno`)
+    foreign key (`facultyno`) references `faculty`(`fno`),
+    key (`coursename`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT '课程';
 
 -- ----------------------------
@@ -83,7 +84,7 @@ CREATE TABLE `schedule`  (
     `courseno` varchar(20) NOT NULL COMMENT '课程号',
     `scheduleno` SMALLINT AUTO_INCREMENT COMMENT '开课号',
     `teacherno` varchar(20) NOT NULL COMMENT '教师工号',
-    `year` INT(5) NOT NULL COMMENT '年份',
+    `year` varchar(5) NOT NULL COMMENT '年份',
     `semester` varchar(10) NOT NULL COMMENT '学期',
     -- `capacity` INTEGER NOT NULL COMMENT '选课容量',
     -- `snum` INTEGER DEFAULT 0 COMMENT '选课人数',

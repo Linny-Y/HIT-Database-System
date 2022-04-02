@@ -33,7 +33,7 @@ class Ui_teacher(object):
         elif not cur.execute(query,[tname]):
             QMessageBox.warning(self, '警告', '该姓名不存在')
         else:
-            query = 'select studentno,sname,courseno,scheduleno,score,teacherno from choose,student where choose.studentno=student.sno and choose.teacherno in (select tno from teacher where tname=%s)'
+            query = 'select studentno,sname,courseno,scheduleno,score,teacherno from student_courses where teacherno in (select tno from teacher where tname=%s)'
             cur.execute(query, [tname])
             data = cur.fetchall()
             x = 0
