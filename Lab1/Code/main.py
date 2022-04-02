@@ -30,22 +30,27 @@ class administratorUi(QMainWindow, Ui_administrator):
         self.setupUi(self)
 
 
+
+
 if __name__ == "__main__":
-    mysql_conn = pymysql.connect(host= 'localhost', port= 3306, charset='utf8',
+    con = pymysql.connect(host= 'localhost', port= 3306, charset='utf8',
                             user= 'root', password= '1234567890', 
                             database= 'teaching_management_system')
+    cur = con.cursor()
     app = QApplication(sys.argv)
     system = systemUi()
     student = studentUi()
     teacher = teacherUi()
     administrator = administratorUi()
-    system.show()
+    system.show() 
+    #窗口跳转
     system.studentbutton.clicked.connect(lambda:{system.close(), student.show()})
     system.teacherbutton.clicked.connect(lambda:{system.close(), teacher.show()})
     system.administratorbutton.clicked.connect(lambda:{system.close(), administrator.show()})
     student.backbutton.clicked.connect(lambda:{student.close(),system.show()})
     teacher.backbutton.clicked.connect(lambda:{teacher.close(),system.show()})
     administrator.backbutton.clicked.connect(lambda:{administrator.close(),system.show()})
+    
 
 
 

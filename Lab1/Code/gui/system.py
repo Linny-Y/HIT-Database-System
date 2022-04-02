@@ -11,10 +11,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
+
 class Ui_system(object):
     def setupUi(self, system):
         system.setObjectName("system")
-        system.resize(800, 600)
+        system.resize(800, 624)
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
@@ -22,7 +23,7 @@ class Ui_system(object):
         self.centralwidget = QtWidgets.QWidget(system)
         self.centralwidget.setObjectName("centralwidget")
         self.studentbutton = QtWidgets.QPushButton(self.centralwidget)
-        self.studentbutton.setGeometry(QtCore.QRect(290, 120, 171, 71))
+        self.studentbutton.setGeometry(QtCore.QRect(310, 120, 171, 71))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(14)
@@ -31,7 +32,7 @@ class Ui_system(object):
         self.studentbutton.setFont(font)
         self.studentbutton.setObjectName("studentbutton")
         self.teacherbutton = QtWidgets.QPushButton(self.centralwidget)
-        self.teacherbutton.setGeometry(QtCore.QRect(290, 220, 171, 71))
+        self.teacherbutton.setGeometry(QtCore.QRect(310, 220, 171, 71))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(14)
@@ -40,7 +41,7 @@ class Ui_system(object):
         self.teacherbutton.setFont(font)
         self.teacherbutton.setObjectName("teacherbutton")
         self.administratorbutton = QtWidgets.QPushButton(self.centralwidget)
-        self.administratorbutton.setGeometry(QtCore.QRect(290, 320, 171, 71))
+        self.administratorbutton.setGeometry(QtCore.QRect(310, 320, 171, 71))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(14)
@@ -59,6 +60,8 @@ class Ui_system(object):
 
         self.retranslateUi(system)
         QtCore.QMetaObject.connectSlotsByName(system)
+
+
 
     def retranslateUi(self, system):
         _translate = QtCore.QCoreApplication.translate

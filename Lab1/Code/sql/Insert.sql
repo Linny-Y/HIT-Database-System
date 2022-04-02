@@ -1,34 +1,66 @@
 
-
 -- ----------------------------
 -- Records of faculty
 -- ----------------------------
 LOCK TABLES `faculty` WRITE;
-INSERT INTO `faculty` VALUES ('001','计算机科学与技术学院');
-INSERT INTO `faculty` VALUES ('002','航天学院');
-INSERT INTO `faculty` VALUES ('003','经管学院');
-INSERT INTO `faculty` VALUES ('004','能源学院');
-INSERT INTO `faculty` VALUES ('005','电子信息学院');
+INSERT INTO `faculty` VALUES ('001','CS');
+INSERT INTO `faculty` VALUES ('002','SA');
+INSERT INTO `faculty` VALUES ('003','SOM');
+INSERT INTO `faculty` VALUES ('005','SEIE');
 UNLOCK TABLES;
 
 -- ----------------------------
 -- Records of class
 -- ----------------------------
 LOCK TABLES `class` WRITE;
-INSERT INTO `class` VALUES ('1901301','2019','60','001');
-INSERT INTO `class` VALUES ('1901302','2019','57','001');
-INSERT INTO `class` VALUES ('1902501','2019','53','002');
-INSERT INTO `class` VALUES ('1902502','2019','55','002');
+INSERT INTO `class` VALUES ('1901301','2019','001');
+INSERT INTO `class` VALUES ('1901302','2019','001');
+INSERT INTO `class` VALUES ('1902501','2019','002');
+INSERT INTO `class` VALUES ('1902502','2019','002');
 UNLOCK TABLES;
 
 -- ----------------------------
 -- Records of student
 -- ----------------------------
 LOCK TABLES `student` WRITE;
-INSERT INTO `student` VALUES ('1190130101','张明','男','1901301','2000-09-27',NULL,NULL);
-INSERT INTO `student` VALUES ('1190130102','张量','男','1901301','2000-10-09',NULL,NULL);
-INSERT INTO `student` VALUES ('1190130201','王欢','女','1901302','2001-06-20',NULL,NULL);
-INSERT INTO `student` VALUES ('1190250101','张宁','女','1902501','2000-08-25',NULL,NULL);
-INSERT INTO `student` VALUES ('1190250201','林琳','女','1902502','2001-07-18',NULL,NULL);
+INSERT INTO `student` VALUES ('1190130101','zhangming','male','1901301',20);
+INSERT INTO `student` VALUES ('1190130102','zhangliang','male','1901301',20);
+INSERT INTO `student` VALUES ('1190130201','wanghuan','female','1901302',19);
+INSERT INTO `student` VALUES ('1190250101','zhangning','female','1902501',20);
+INSERT INTO `student` VALUES ('1190250201','linlin','female','1902502',19);
 UNLOCK TABLES;
 
+-- ----------------------------
+-- Records of teacher
+-- ----------------------------
+LOCK TABLES `teacher` WRITE;
+INSERT INTO `teacher` VALUES ('0172510217','zhangliang','001');
+INSERT INTO `teacher` VALUES ('0172510218','liming','001');
+INSERT INTO `teacher` VALUES ('0172510220','wangliang','001');
+INSERT INTO `teacher` VALUES ('0172510221','shiyu','001');
+INSERT INTO `teacher` VALUES ('0172510219','wanghu','002');
+UNLOCK TABLES;
+
+-- ----------------------------
+-- Records of course
+-- ----------------------------
+LOCK TABLES `course` WRITE;
+INSERT INTO `course` VALUES ('CS33502','Compiler_System','001');
+INSERT INTO `course` VALUES ('CS32255','Information_retrieval','001');
+INSERT INTO `course` VALUES ('CS33503','Database_System','001');
+UNLOCK TABLES;
+
+-- ----------------------------
+-- Records of classroom
+-- ----------------------------
+LOCK TABLES `classroom` WRITE;
+INSERT INTO `classroom` VALUES ('A24','A');
+INSERT INTO `classroom` VALUES ('A32','A');
+INSERT INTO `classroom` VALUES ('A12','A');
+UNLOCK TABLES;
+
+
+
+INSERT INTO `schedule` VALUES ('CS33502',NULL,'0172510217',2022,'spring',70,0);
+INSERT INTO `schedule` VALUES ('CS32255',NULL,'0172510218',2022,'spring',70,0);
+INSERT INTO `schedule` VALUES ('CS33503',NULL,'0172510220',2022,'spring',70,0);
