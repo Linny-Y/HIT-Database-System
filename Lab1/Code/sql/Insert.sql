@@ -24,7 +24,7 @@ UNLOCK TABLES;
 -- ----------------------------
 LOCK TABLES `student` WRITE;
 INSERT INTO `student` VALUES ('1190130101','zhangming','male','1901301',20);
-INSERT INTO `student` VALUES ('1190130102','zhangliang','male','1901301',20);
+INSERT INTO `student` VALUES ('1190130102','xuliang','male','1901301',20);
 INSERT INTO `student` VALUES ('1190130201','wanghuan','female','1901302',19);
 INSERT INTO `student` VALUES ('1190250101','zhangning','female','1902501',20);
 INSERT INTO `student` VALUES ('1190250201','linlin','female','1902502',19);
@@ -61,6 +61,6 @@ UNLOCK TABLES;
 
 
 
-INSERT INTO `schedule` VALUES ('CS33502',NULL,'0172510217',2022,'spring',70,0);
-INSERT INTO `schedule` VALUES ('CS32255',NULL,'0172510218',2022,'spring',70,0);
-INSERT INTO `schedule` VALUES ('CS33503',NULL,'0172510220',2022,'spring',70,0);
+INSERT INTO `schedule` VALUES ('CS33502',NULL,'0172510217',2022,'spring');
+INSERT INTO `schedule` VALUES ('CS32255',NULL,'0172510218',2022,'spring');
+INSERT INTO `schedule` VALUES ('CS33503',NULL,'0172510220',2022,'spring');

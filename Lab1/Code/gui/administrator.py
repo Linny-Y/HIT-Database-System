@@ -9,9 +9,24 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import *
+
+import sys
+import pymysql
 
 
 class Ui_administrator(object):
+    def connect(self):
+        con = pymysql.connect(host= 'localhost', port= 3306, charset='utf8',
+                            user= 'root', password= '1234567890', 
+                            database= 'teaching_management_system')
+        return con
+    def studentInsert(self):
+        con = self.connect()
+        cur = con.cursor()
+        sno,sname,classno,sage,ssex = self.lineEdit_sno.text(),self.lineEdit_sname.text(),self.lineEdit_cno.text(),self.lineEdit_sage.text(),self.comboBox_sex.currentText()
+        
+
     def setupUi(self, administrator):
         administrator.setObjectName("administrator")
         administrator.resize(979, 625)
@@ -25,7 +40,7 @@ class Ui_administrator(object):
         self.backbutton.setGeometry(QtCore.QRect(10, 10, 93, 32))
         self.backbutton.setObjectName("backbutton")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(60, 50, 391, 231))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(60, 70, 391, 231))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
@@ -100,10 +115,10 @@ class Ui_administrator(object):
         self.horizontalLayout.addWidget(self.studentDeletepushButton)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(10, 70, 41, 171))
+        self.label_4.setGeometry(QtCore.QRect(20, 70, 41, 171))
         self.label_4.setObjectName("label_4")
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(560, 50, 356, 231))
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(560, 70, 356, 231))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -178,36 +193,11 @@ class Ui_administrator(object):
         self.InsertSchedulepushButton.setObjectName("InsertSchedulepushButton")
         self.horizontalLayout_2.addWidget(self.InsertSchedulepushButton)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
-        self.verticalLayoutWidget_3 = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(90, 300, 361, 91))
-        self.verticalLayoutWidget_3.setObjectName("verticalLayoutWidget_3")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_3)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.formLayout_2 = QtWidgets.QFormLayout()
-        self.formLayout_2.setObjectName("formLayout_2")
-        self.label_11 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
-        self.label_11.setObjectName("label_11")
-        self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_11)
-        self.verticalLayout_3.addLayout(self.formLayout_2)
-        self.gridLayout_8 = QtWidgets.QGridLayout()
-        self.gridLayout_8.setObjectName("gridLayout_8")
-        self.lineEdit_scheduleno = QtWidgets.QLineEdit(self.verticalLayoutWidget_3)
-        self.lineEdit_scheduleno.setText("")
-        self.lineEdit_scheduleno.setObjectName("lineEdit_scheduleno")
-        self.gridLayout_8.addWidget(self.lineEdit_scheduleno, 1, 1, 1, 1)
-        self.label_15 = QtWidgets.QLabel(self.verticalLayoutWidget_3)
-        self.label_15.setObjectName("label_15")
-        self.gridLayout_8.addWidget(self.label_15, 1, 0, 1, 1)
-        self.deletepushButton = QtWidgets.QPushButton(self.verticalLayoutWidget_3)
-        self.deletepushButton.setObjectName("deletepushButton")
-        self.gridLayout_8.addWidget(self.deletepushButton, 1, 2, 1, 1)
-        self.verticalLayout_3.addLayout(self.gridLayout_8)
         self.label_25 = QtWidgets.QLabel(self.centralwidget)
-        self.label_25.setGeometry(QtCore.QRect(20, 440, 51, 51))
+        self.label_25.setGeometry(QtCore.QRect(20, 400, 51, 51))
         self.label_25.setObjectName("label_25")
         self.verticalLayoutWidget_5 = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(90, 420, 361, 141))
+        self.verticalLayoutWidget_5.setGeometry(QtCore.QRect(100, 340, 361, 141))
         self.verticalLayoutWidget_5.setObjectName("verticalLayoutWidget_5")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_5)
         self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -234,7 +224,7 @@ class Ui_administrator(object):
         self.horizontalLayout_6.addWidget(self.course2studentButton)
         self.verticalLayout_6.addLayout(self.horizontalLayout_6)
         self.verticalLayoutWidget_6 = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(560, 420, 351, 141))
+        self.verticalLayoutWidget_6.setGeometry(QtCore.QRect(560, 340, 351, 141))
         self.verticalLayoutWidget_6.setObjectName("verticalLayoutWidget_6")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_6)
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
@@ -261,27 +251,17 @@ class Ui_administrator(object):
         self.horizontalLayout_7.addWidget(self.scoreButton)
         self.verticalLayout_7.addLayout(self.horizontalLayout_7)
         self.line = QtWidgets.QFrame(self.centralwidget)
-        self.line.setGeometry(QtCore.QRect(530, 50, 20, 241))
+        self.line.setGeometry(QtCore.QRect(530, 50, 20, 500))
         self.line.setFrameShape(QtWidgets.QFrame.VLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.line_2 = QtWidgets.QFrame(self.centralwidget)
-        self.line_2.setGeometry(QtCore.QRect(70, 280, 861, 20))
+        self.line_2.setGeometry(QtCore.QRect(10, 320, 910, 20))
         self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
-        self.line_3 = QtWidgets.QFrame(self.centralwidget)
-        self.line_3.setGeometry(QtCore.QRect(20, 390, 911, 20))
-        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_3.setObjectName("line_3")
-        self.line_4 = QtWidgets.QFrame(self.centralwidget)
-        self.line_4.setGeometry(QtCore.QRect(500, 400, 20, 171))
-        self.line_4.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_4.setObjectName("line_4")
         self.line_5 = QtWidgets.QFrame(self.centralwidget)
-        self.line_5.setGeometry(QtCore.QRect(60, 50, 20, 521))
+        self.line_5.setGeometry(QtCore.QRect(60, 50, 20, 500))
         self.line_5.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_5.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_5.setObjectName("line_5")
@@ -296,6 +276,11 @@ class Ui_administrator(object):
 
         self.retranslateUi(administrator)
         QtCore.QMetaObject.connectSlotsByName(administrator)
+
+        # operation
+        self.studentInsertButton.clicked.connect(self.studentInsert)
+
+
 
     def retranslateUi(self, administrator):
         _translate = QtCore.QCoreApplication.translate
@@ -329,9 +314,9 @@ class Ui_administrator(object):
         self.comboBox_year.setItemText(4, _translate("administrator", "2023"))
         self.label_13.setText(_translate("administrator", "选课容量"))
         self.InsertSchedulepushButton.setText(_translate("administrator", "插入"))
-        self.label_11.setText(_translate("administrator", "课程删除："))
-        self.label_15.setText(_translate("administrator", "开课号"))
-        self.deletepushButton.setText(_translate("administrator", "删除"))
+        # self.label_11.setText(_translate("administrator", "课程删除："))
+        # self.label_15.setText(_translate("administrator", "开课号"))
+        # self.deletepushButton.setText(_translate("administrator", "删除"))
         self.label_25.setText(_translate("administrator", "查询"))
         self.label_27.setText(_translate("administrator", "查询选修某课程学生姓名"))
         self.label_28.setText(_translate("administrator", "课程名称"))

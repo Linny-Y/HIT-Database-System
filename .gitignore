@@ -2,6 +2,8 @@
 *.doc
 *.docx
 *.pdf
+Gui.py
+*.ui
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import *
 
 import sys
 import pymysql
@@ -18,8 +19,50 @@ class Ui_teacher(object):
         con = pymysql.connect(host= 'localhost', port= 3306, charset='utf8',
                             user= 'root', password= '1234567890', 
                             database= 'teaching_management_system')
-        
         return con
+
+    # 获得选课学生信息
+    def teacher2student(self):
+        self.tableWidget.clearContents()
+        tname = self.teacherlineEdit.text()
+        con = self.connect()
+        cur = con.cursor()
+        query = 'select tno from teacher where tname=%s'
+        if not tname:
+            QMessageBox.warning(self, '警告', '请输入教师姓名')
+        elif not cur.execute(query,[tname]):
+            QMessageBox.warning(self, '警告', '该姓名不存在')
+        else:
+            query = 'select studentno,sname,courseno,scheduleno,score,teacherno from choose,student where choose.studentno=student.sno and choose.teacherno in (select tno from teacher where tname=%s)'
+            cur.execute(query, [tname])
+            data = cur.fetchall()
+            x = 0
+            for i in data:
+                y = 0
+                for j in i:
+                    self.tableWidget.setItem(x,y, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                    y = y + 1
+                x = x + 1
+    
+    # 录入成绩
+    def scoreInsert(self):
+        sno,scheduleno,score = self.lineEdit_sno.text(),self.lineEdit_cno.text(),self.lineEdit_score.text()
+        con = self.connect()
+        cur = con.cursor()
+        if not sno or not scheduleno or not score:
+            QMessageBox.warning(self, '警告', '请输入学号、开课号和成绩')
+        elif not cur.execute('select * from choose where studentno=%s and scheduleno=%s',[sno,scheduleno]):
+            QMessageBox.warning(self, '警告', '请输入学号或开课号错误')
+        else:
+            cur.execute('update choose set score=%s where studentno=%s and scheduleno=%s',[int(score),sno,scheduleno])
+            con.commit()
+            QMessageBox.information(self, '成功', '成绩已录入')
+        self.lineEdit_sno.clear()
+        self.lineEdit_cno.clear()
+        self.lineEdit_score.clear()
+
+
+
     def setupUi(self, teacher):
         teacher.setObjectName("teacher")
         teacher.resize(800, 625)
@@ -33,12 +76,24 @@ class Ui_teacher(object):
         self.backbutton.setGeometry(QtCore.QRect(10, 10, 93, 28))
         self.backbutton.setObjectName("backbutton")
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(20, 130, 371, 411))
+        self.tableWidget.setGeometry(QtCore.QRect(20, 70, 750, 280))
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(0)
-        self.tableWidget.setRowCount(0)
+        self.tableWidget.setColumnCount(6)
+        self.tableWidget.setRowCount(100)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(5, item)
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(420, 80, 361, 231))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(30, 360, 361, 231))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -85,7 +140,7 @@ class Ui_teacher(object):
         self.horizontalLayout.addWidget(self.scoreInsertButton)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.formLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(20, 80, 241, 31))
+        self.formLayoutWidget.setGeometry(QtCore.QRect(120, 10, 241, 31))
         self.formLayoutWidget.setObjectName("formLayoutWidget")
         self.formLayout_2 = QtWidgets.QFormLayout(self.formLayoutWidget)
         self.formLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -97,7 +152,7 @@ class Ui_teacher(object):
         self.teacherlineEdit.setObjectName("teacherlineEdit")
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.teacherlineEdit)
         self.studentpushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.studentpushButton.setGeometry(QtCore.QRect(280, 80, 102, 32))
+        self.studentpushButton.setGeometry(QtCore.QRect(380, 10, 102, 32))
         self.studentpushButton.setObjectName("studentpushButton")
         teacher.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(teacher)
@@ -111,17 +166,33 @@ class Ui_teacher(object):
         self.retranslateUi(teacher)
         QtCore.QMetaObject.connectSlotsByName(teacher)
 
+        # operation
+        self.studentpushButton.clicked.connect(self.teacher2student)
+        self.scoreInsertButton.clicked.connect(self.scoreInsert)
+
     def retranslateUi(self, teacher):
         _translate = QtCore.QCoreApplication.translate
         teacher.setWindowTitle(_translate("teacher", "教师"))
         self.backbutton.setText(_translate("teacher", "返回"))
-        self.label.setText(_translate("teacher", "录入成绩"))
+        self.label.setText(_translate("teacher", "  录入成绩"))
         self.label_5.setText(_translate("teacher", "   学号   "))
         self.label_3.setText(_translate("teacher", "开课班号"))
         self.label_16.setText(_translate("teacher", "   成绩   "))
         self.scoreInsertButton.setText(_translate("teacher", "插入"))
         self.label_4.setText(_translate("teacher", "教师名称"))
         self.studentpushButton.setText(_translate("teacher", "查询学生"))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("teacher", "studentno"))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("teacher", "studentname"))
+        item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("teacher", "courseno"))
+        item = self.tableWidget.horizontalHeaderItem(3)
+        item.setText(_translate("teacher", "scheduleno"))
+        item = self.tableWidget.horizontalHeaderItem(4)
+        item.setText(_translate("teacher", "score"))
+        item = self.tableWidget.horizontalHeaderItem(5)
+        item.setText(_translate("teacher", "teacherno"))
 
 
 if __name__ == "__main__":

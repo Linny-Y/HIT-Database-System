@@ -85,8 +85,8 @@ CREATE TABLE `schedule`  (
     `teacherno` varchar(20) NOT NULL COMMENT '教师工号',
     `year` INT(5) NOT NULL COMMENT '年份',
     `semester` varchar(10) NOT NULL COMMENT '学期',
-    `capacity` INTEGER NOT NULL COMMENT '选课容量',
-    `snum` INTEGER DEFAULT 0 COMMENT '选课人数',
+    -- `capacity` INTEGER NOT NULL COMMENT '选课容量',
+    -- `snum` INTEGER DEFAULT 0 COMMENT '选课人数',
     check (`semester`in('spring','summer','autumn')),
     primary key (`scheduleno`),
     foreign key (`courseno`) references `course`(`courseno`),
@@ -123,10 +123,12 @@ CREATE TABLE `choose`  (
     `studentno` varchar(20) NOT NULL COMMENT '学号',
     `courseno` varchar(20) NOT NULL COMMENT '课程号',
     `scheduleno` SMALLINT NOT NULL COMMENT '开课班号',
-    `score` INTEGER COMMENT '成绩',
+    `teacherno` varchar(20) NOT NULL COMMENT '教师工号',
+    `score` varchar(3) COMMENT '成绩',
     -- `recorddate` datetime COMMENT '成绩上传时间',
     primary key (`studentno`,`courseno`),
     foreign key (`studentno`) references `student`(`sno`),
     foreign key (`courseno`) references `course`(`courseno`),
-    foreign key (`scheduleno`) references `schedule`(`scheduleno`)
+    foreign key (`scheduleno`) references `schedule`(`scheduleno`),
+    foreign key (`teacherno`) references `teacher`(`tno`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT '选课';

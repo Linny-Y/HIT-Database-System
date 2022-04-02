@@ -26,14 +26,14 @@ class Ui_student(object):
     def printCourse(self):
         con = self.connect()
         cur = con.cursor()
-        cur.execute('select scheduleno,coursename,tname,year,semester,capacity,snum from schedule,course,teacher where schedule.teacherno=teacher.tno and course.courseno = schedule.courseno')
+        cur.execute('select scheduleno,coursename,tname,year,semester from schedule,course,teacher where schedule.teacherno=teacher.tno and course.courseno = schedule.courseno')
         data = cur.fetchall()
         # 打印测试
         x = 0
         for i in data:
             y = 0
             for j in i:
-                self.coursetableWidget.setItem(y, x, QtWidgets.QTableWidgetItem(str(data[x][y])))
+                self.coursetableWidget.setItem(x,y, QtWidgets.QTableWidgetItem(str(data[x][y])))
                 y = y + 1
             x = x + 1
         # print(data)
@@ -51,14 +51,16 @@ class Ui_student(object):
             elif not cur.execute('select * from schedule where scheduleno=%s',[scheduleno]):
                 QMessageBox.warning(self, '警告', '开课号输入错误')
             else:
-                query = 'select courseno from schedule where scheduleno=%s'
+                query = 'select courseno,teacherno from schedule where scheduleno=%s'
                 cur.execute(query, [scheduleno])
-                courseno = cur.fetchall()[0][0]
+                data=cur.fetchall()
+                courseno = data[0][0]
+                teacherno = data[0][1]
                 if cur.execute('select * from choose where studentno=%s and courseno=%s',[sno,courseno]):
                     QMessageBox.warning(self, '警告', '该选课已存在')
                 else:
-                    query = 'insert into choose values (%s,%s,%s,NULL)'
-                    cur.execute(query, [sno,courseno,scheduleno])
+                    query = 'insert into choose values (%s,%s,%s,%s,0)'
+                    cur.execute(query, [sno,courseno,scheduleno,teacherno])
                     con.commit()
         self.lineEdit_schno.clear()
 
@@ -78,24 +80,20 @@ class Ui_student(object):
         self.selectCoursepushButton.setGeometry(QtCore.QRect(110, 10, 93, 28))
         self.selectCoursepushButton.setObjectName("selectCoursepushButton")
         self.coursetableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.coursetableWidget.setGeometry(QtCore.QRect(20, 45, 750, 320))
+        self.coursetableWidget.setGeometry(QtCore.QRect(20, 70, 750, 280))
         self.coursetableWidget.setObjectName("coursetableWidget")
-        self.coursetableWidget.setColumnCount(100)
-        self.coursetableWidget.setRowCount(7)
+        self.coursetableWidget.setColumnCount(5)
+        self.coursetableWidget.setRowCount(100)
         item = QtWidgets.QTableWidgetItem()
-        self.coursetableWidget.setVerticalHeaderItem(0, item)
+        self.coursetableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
-        self.coursetableWidget.setVerticalHeaderItem(1, item)
+        self.coursetableWidget.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
-        self.coursetableWidget.setVerticalHeaderItem(2, item)
+        self.coursetableWidget.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
-        self.coursetableWidget.setVerticalHeaderItem(3, item)
+        self.coursetableWidget.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
-        self.coursetableWidget.setVerticalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.coursetableWidget.setVerticalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.coursetableWidget.setVerticalHeaderItem(6, item)
+        self.coursetableWidget.setHorizontalHeaderItem(4, item)
         self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(20, 350, 361, 231))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
@@ -161,20 +159,20 @@ class Ui_student(object):
         self.label_5.setText(_translate("student", "  学号  "))
         self.label_16.setText(_translate("student", "开课号"))
         self.chooseButton.setText(_translate("student", "选择"))
-        item = self.coursetableWidget.verticalHeaderItem(0)
+        item = self.coursetableWidget.horizontalHeaderItem(0)
         item.setText(_translate("student", "scheduleno"))
-        item = self.coursetableWidget.verticalHeaderItem(1)
+        item = self.coursetableWidget.horizontalHeaderItem(1)
         item.setText(_translate("student", "coursename"))
-        item = self.coursetableWidget.verticalHeaderItem(2)
+        item = self.coursetableWidget.horizontalHeaderItem(2)
         item.setText(_translate("student", "teachername"))
-        item = self.coursetableWidget.verticalHeaderItem(3)
+        item = self.coursetableWidget.horizontalHeaderItem(3)
         item.setText(_translate("student", "year"))
-        item = self.coursetableWidget.verticalHeaderItem(4)
+        item = self.coursetableWidget.horizontalHeaderItem(4)
         item.setText(_translate("student", "semester"))
-        item = self.coursetableWidget.verticalHeaderItem(5)
-        item.setText(_translate("student", "capacity"))
-        item = self.coursetableWidget.verticalHeaderItem(6)
-        item.setText(_translate("student", "snum"))
+        # item = self.coursetableWidget.horizontalHeaderItem(5)
+        # item.setText(_translate("student", "capacity"))
+        # item = self.coursetableWidget.horizontalHeaderItem(6)
+        # item.setText(_translate("student", "snum"))
        
 
 
