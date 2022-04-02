@@ -38,7 +38,7 @@ class Ui_student(object):
                 y = y + 1
             x = x + 1
         # print(data)
-
+    #学生选课
     def chooseCourse(self):
         sno,scheduleno = self.lineEdit_sno.text(),self.lineEdit_schno.text()
         con = self.connect()
