@@ -38,8 +38,13 @@ LOCK TABLES `teacher` WRITE;
 INSERT INTO `teacher` VALUES ('0172510217','zhangliang','001');
 INSERT INTO `teacher` VALUES ('0172510218','liming','001');
 INSERT INTO `teacher` VALUES ('0172510220','wangliang','001');
+
 INSERT INTO `teacher` VALUES ('0172510221','shiyu','001');
 INSERT INTO `teacher` VALUES ('0172510219','wanghu','002');
+
+INSERT INTO `teacher` VALUES ('0172510222','fanghua','001');
+INSERT INTO `teacher` VALUES ('0172510223','wangyi','001');
+INSERT INTO `teacher` VALUES ('0172510224','liushan','001');
 UNLOCK TABLES;
 
 -- ----------------------------
@@ -63,9 +68,12 @@ UNLOCK TABLES;
 
 
 INSERT INTO `schedule` VALUES ('CS33502',NULL,'0172510217',2022,'spring');
-INSERT INTO `schedule` VALUES ('CS32255',NULL,'0172510218',2022,'spring');
+INSERT INTO `schedule` VALUES ('CS33502',NULL,'0172510218',2022,'spring');
+INSERT INTO `schedule` VALUES ('CS33502',NULL,'0172510220',2022,'spring');
+
+INSERT INTO `schedule` VALUES ('CS32255',NULL,'0172510221',2022,'spring');
+INSERT INTO `schedule` VALUES ('CS32255',NULL,'0172510219',2022,'spring');
+
 INSERT INTO `schedule` VALUES ('CS33503',NULL,'0172510220',2022,'spring');
 
-INSERT INTO `choose` VALUES ('CS33502',NULL,'0172510217',2022,'spring');
-INSERT INTO `choose` VALUES ('CS32255',NULL,'0172510218',2022,'spring');
-INSERT INTO `choose` VALUES ('CS33503',NULL,'0172510220',2022,'spring');
+
