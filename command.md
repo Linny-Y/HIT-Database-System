@@ -1,10 +1,14 @@
-###### 连接MySQL服务器
+## 连接MySQL服务器
 
  mysql -u root -p
 
 
 
-###### 运行sql文件
+## 命令行清屏
+
+system cls
+
+## 运行sql文件
 
 \\. route\filename
 
@@ -12,31 +16,31 @@
 
 
 
-######  创建数据库menagerie
+## 创建数据库menagerie
 
 CREATE DATABASE menagerie;
 
  
 
-###### 查看MySQL中有哪些数据库
+## 查看MySQL中有哪些数据库
 
 show databases; 
 
  
 
-###### 使用数据库mysql
+## 使用数据库mysql
 
 use mysql;
 
  
 
-######  查看当前使用的数据库
+##  查看当前使用的数据库
 
 select database();
 
  
 
-###### 创建宠物信息关系pet，包含宠物名字、主人、种类、性别、出生和死亡日期
+## 创建宠物信息关系pet，包含宠物名字、主人、种类、性别、出生和死亡日期
 
 CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20),
 
@@ -44,19 +48,19 @@ CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20),
 
  
 
-###### 查看数据库mysql中有哪些关系
+## 查看数据库mysql中有哪些关系
 
 show tables;
 
  
 
-###### 查看数据库mysql中关系的模式（以关系user为例）
+## 查看数据库mysql中关系的模式（以关系user为例）
 
 describe user;
 
 
 
-###### 向关系pet中插入元组
+## 向关系pet中插入元组
 
 INSERT INTO pet
 
@@ -64,7 +68,7 @@ INSERT INTO pet
 
  
 
-###### 使用help命令来了解其他命令和变量类型等的含义
+## 使用help命令来了解其他命令和变量类型等的含义
 
 help;
 
@@ -72,7 +76,7 @@ help use;
 
  
 
-###### 使用SQL语言在数据库mysql上进行简单查询
+## 使用SQL语言在数据库mysql上进行简单查询
 
 select * from user;
 
@@ -84,25 +88,25 @@ select count(*) as ucount from user;
 
  
 
-###### 更改关系pet中的数据
+## 更改关系pet中的数据
 
 UPDATE pet SET birth = "1989-08-31" WHERE name = "Bowser";
 
 
 
-###### 取消命令
+## 取消命令
 
 若要取消一条正在编辑命令，键入\c并回车
 
  
 
-###### 断开MySQL服务器连接
+## 断开MySQL服务器连接
 
 quit 或 exit
 
  
 
-###### 从文件中批量导入数据
+## 从文件中批量导入数据
 
 设D:\pet.txt是一个由字符Tab分隔的文本文件
 
