@@ -1,6 +1,13 @@
-DROP DATABASE company;
+DROP DATABASE COMPANY;
 CREATE DATABASE COMPANY;  # 公司数据库
 USE COMPANY;
+
+CREATE TABLE `DEPARTMENT`  (  # 部门
+    `DNEMBER` varchar(10) PRIMARY KEY,    #部门号
+    `DNAME` varchar(100),    #部门名
+    `MGRSSN` varchar(18) ,    #部门领导身份证号
+    `MGRSTARTDATE` date   #部门领导开始领导工作的日期
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `EMPLOYEE`  (  #工作人员
     `ESSN` varchar(18) PRIMARY KEY,    #工作人员身份证号
@@ -9,16 +16,7 @@ CREATE TABLE `EMPLOYEE`  (  #工作人员
     `SALARY` INTEGER ,    #工作人员工资
     `SUPERSSN` varchar(18) ,    #工作人员直接领导的身份证号
     `DNO` varchar(10) ,    #所属部门号
-    FOREIGN KEY (`SUPERSSN`) REFERENCES `EMPLOYEE`(`ESSN`),
     FOREIGN KEY (`DNO`) REFERENCES `DEPARTMENT`(`DNEMBER`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `DEPARTMENT`  (  # 部门
-    `DNEMBER` varchar(10) PRIMARY KEY,    #部门号
-    `DNAME` varchar(100),    #部门名
-    `MGRSSN` varchar(18) ,    #部门领导身份证号
-    `MGRSTARTDATE` date ,   #部门领导开始领导工作的日期
-    FOREIGN KEY (`MGRSSN`) REFERENCES `EMPLOYEE`(`ESSN`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `PROJECT`  (   # 工程项目
