@@ -16,16 +16,9 @@ import sys
 import pymysql
 
 class Ui_student(object):
-    def connect(self):
-        con = pymysql.connect(host= 'localhost', port= 3306, charset='utf8',
-                            user= 'root', password= '1234567890', 
-                            database= 'teaching_management_system')
-        
-        return con
     # 输出备选科目
     def printCourse(self):
-        con = self.connect()
-        cur = con.cursor()
+        cur = self.con.cursor()
         cur.execute('select * from all_courses')
         data = cur.fetchall()
         # 打印测试
@@ -40,8 +33,7 @@ class Ui_student(object):
     #学生选课
     def chooseCourse(self):
         sno,scheduleno = self.lineEdit_sno.text(),self.lineEdit_schno.text()
-        con = self.connect()
-        cur = con.cursor()
+        cur = self.con.cursor()
         if not sno or not scheduleno:
             QMessageBox.warning(self, '警告', '请输入学号、开课号')
         else:
@@ -61,11 +53,12 @@ class Ui_student(object):
                 else:
                     query = 'insert into choose values (%s,%s,%s,%s,0)'
                     cur.execute(query, [sno,courseno,scheduleno,teacherno])
-                    con.commit()
+                    self.con.commit()
                     QMessageBox.information(self, '成功', '选课成功')
         self.lineEdit_schno.clear()
 
-    def setupUi(self, student):
+    def setupUi(self, student, con):
+        self.con = con
         student.setObjectName("student")
         student.resize(800, 625)
         font = QtGui.QFont()

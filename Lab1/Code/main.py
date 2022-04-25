@@ -15,19 +15,19 @@ class systemUi(QMainWindow, Ui_system):
         self.setupUi(self)
 
 class studentUi(QMainWindow, Ui_student):
-    def __init__(self):
+    def __init__(self, con):
         super(studentUi, self).__init__()
-        self.setupUi(self)
+        self.setupUi(self, con)
 
 class teacherUi(QMainWindow, Ui_teacher):
-    def __init__(self):
+    def __init__(self, con):
         super(teacherUi, self).__init__()
-        self.setupUi(self)
+        self.setupUi(self, con)
 
 class administratorUi(QMainWindow, Ui_administrator):
-    def __init__(self):
+    def __init__(self, con):
         super(administratorUi, self).__init__()
-        self.setupUi(self)
+        self.setupUi(self, con)
 
 
 
@@ -39,9 +39,9 @@ if __name__ == "__main__":
     cur = con.cursor()
     app = QApplication(sys.argv)
     system = systemUi()
-    student = studentUi()
-    teacher = teacherUi()
-    administrator = administratorUi()
+    student = studentUi(con)
+    teacher = teacherUi(con)
+    administrator = administratorUi(con)
     system.show() 
     #窗口跳转
     system.studentbutton.clicked.connect(lambda:{system.close(), student.show()})

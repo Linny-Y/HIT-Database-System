@@ -16,14 +16,8 @@ import pymysql
 
 
 class Ui_administrator(object):
-    def connect(self):
-        con = pymysql.connect(host= 'localhost', port= 3306, charset='utf8',
-                            user= 'root', password= '1234567890', 
-                            database= 'teaching_management_system')
-        return con
     def studentInsert(self):
-        con = self.connect()
-        cur = con.cursor()
+        cur = self.con.cursor()
         sno,sname,classno,sage,ssex = self.lineEdit_sno.text(),self.lineEdit_sname.text(),self.lineEdit_cno.text(),self.lineEdit_sage.text(),self.comboBox_sex.currentText()
         if not sno or not sname or not classno or not sage:
             QMessageBox.warning(self, '警告', '不能为空')
@@ -33,14 +27,13 @@ class Ui_administrator(object):
             QMessageBox.warning(self, '警告', '该学生已存在')
         else:
             cur.execute("insert into student VALUES(%s,%s,%s,%s,%s)",[sno,sname,ssex,classno,sage])
-            con.commit()
+            self.con.commit()
             QMessageBox.information(self, '成功', '学生信息已录入')
         self.lineEdit_sname.clear()
 
         
     def studentDelete(self):
-        con = self.connect()
-        cur = con.cursor()
+        cur = self.con.cursor()
         sno = self.lineEdit_sno.text()
         if not sno :
             QMessageBox.warning(self, '警告', '不能为空')
@@ -48,12 +41,11 @@ class Ui_administrator(object):
             QMessageBox.warning(self, '警告', '该学生不存在')
         else:
             cur.execute("delete from student where sno=%s",[sno])
-            con.commit()
+            self.con.commit()
             QMessageBox.information(self, '成功', '学生信息已删除')
 
     def InsertSchedule(self):
-        con = self.connect()
-        cur = con.cursor()
+        cur = self.con.cursor()
         courseno,teacherno = self.lineEdit_courseno.text(),self.lineEdit_tno.text()
         year,semester = self.comboBox_year.currentText(),self.comboBox_semester.currentText()
         if not courseno or not teacherno:
@@ -66,14 +58,13 @@ class Ui_administrator(object):
             QMessageBox.warning(self, '警告', '该排课已存在')
         else:
             cur.execute('insert into schedule values(%s,NULL,%s,%s,%s)',[courseno,teacherno,year,semester])
-            con.commit()
+            self.con.commit()
             QMessageBox.information(self, '成功', '排课信息已录入')
 
 
 
     def course2student(self):
-        con = self.connect()
-        cur = con.cursor()
+        cur = self.con.cursor()
         coursename = self.lineEdit_coursename.text()
         if not coursename:
             QMessageBox.warning(self, '警告', '不能为空')
@@ -87,8 +78,7 @@ class Ui_administrator(object):
 
 
     def score(self):
-        con = self.connect()
-        cur = con.cursor()
+        cur = self.con.cursor()
         sno = self.lineEdit_sno2.text()
         query = 'select studentno,count(*),avg(score) from choose group by studentno '
         if not sno:
@@ -109,7 +99,8 @@ class Ui_administrator(object):
             QMessageBox.information(self, '成功', '\n'.join(res) if len(res) > 0 else '无结果')
 
 
-    def setupUi(self, administrator):
+    def setupUi(self, administrator, con):
+        self.con = con
         administrator.setObjectName("administrator")
         administrator.resize(979, 625)
         font = QtGui.QFont()

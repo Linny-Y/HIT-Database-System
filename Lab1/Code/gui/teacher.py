@@ -15,18 +15,11 @@ import sys
 import pymysql
 
 class Ui_teacher(object):
-    def connect(self):
-        con = pymysql.connect(host= 'localhost', port= 3306, charset='utf8',
-                            user= 'root', password= '1234567890', 
-                            database= 'teaching_management_system')
-        return con
-
     # 获得选课学生信息
     def teacher2student(self):
         self.tableWidget.clearContents()
         tname = self.teacherlineEdit.text()
-        con = self.connect()
-        cur = con.cursor()
+        cur = self.con.cursor()
         query = 'select tno from teacher where tname=%s'
         if not tname:
             QMessageBox.warning(self, '警告', '请输入教师姓名')
@@ -47,15 +40,14 @@ class Ui_teacher(object):
     # 录入成绩
     def scoreInsert(self):
         sno,scheduleno,score = self.lineEdit_sno.text(),self.lineEdit_cno.text(),self.lineEdit_score.text()
-        con = self.connect()
-        cur = con.cursor()
+        cur = self.con.cursor()
         if not sno or not scheduleno or not score:
             QMessageBox.warning(self, '警告', '请输入学号、开课号和成绩')
         elif not cur.execute('select * from choose where studentno=%s and scheduleno=%s',[sno,scheduleno]):
             QMessageBox.warning(self, '警告', '请输入学号或开课号错误')
         else:
             cur.execute('update choose set score=%s where studentno=%s and scheduleno=%s',[int(score),sno,scheduleno])
-            con.commit()
+            self.con.commit()
             QMessageBox.information(self, '成功', '成绩已录入')
         self.lineEdit_sno.clear()
         self.lineEdit_cno.clear()
@@ -63,7 +55,8 @@ class Ui_teacher(object):
 
 
 
-    def setupUi(self, teacher):
+    def setupUi(self, teacher, con):
+        self.con = con
         teacher.setObjectName("teacher")
         teacher.resize(800, 625)
         font = QtGui.QFont()

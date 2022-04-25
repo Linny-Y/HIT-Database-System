@@ -1,3 +1,4 @@
+use teaching_management_system;
 
 DROP TABLE IF EXISTS `choose`;
 DROP TABLE IF EXISTS `time`;
@@ -58,7 +59,7 @@ CREATE TABLE `teacher`  (
     -- `tdegree` varchar(10) NOT NULL COMMENT '学位',
     -- `etime` DATE NOT NULL COMMENT '聘用日期',
     primary key (`tno`),
-    key (`tname`),
+    index (`tname`),
     foreign key (`fno`) references `faculty`(`fno`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT '教师';
 
