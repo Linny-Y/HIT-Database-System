@@ -33,7 +33,7 @@ struct hashBucket {
 	/**
 	 * Next node in the hash table
 	 */
-	hashBucket*   next;
+	hashBucket* next;
 };
 
 
