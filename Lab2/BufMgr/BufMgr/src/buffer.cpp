@@ -47,7 +47,7 @@ namespace badgerdb
 			}
 		}
 
-		// delete the hash table.
+		// delete the bufDescTable.
 		delete[] bufDescTable;
 		// delete the buffer pool.
 		delete[] bufPool;
