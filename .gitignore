@@ -6,6 +6,7 @@ Gui.py
 *.ui
 *.mwb
 *.zip
+*.tmp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
